@@ -11,7 +11,7 @@ const setup = (props = {}) => {
 };
 
 test("renders without error", () => {
-  const wrapper = setup({ secretWord: true });
+  const wrapper = setup();
   const componentInput = findByTestAttribute(wrapper, "component-input");
   expect(componentInput.length).toBe(1);
 });

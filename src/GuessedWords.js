@@ -19,12 +19,10 @@ const GuessedWords = (props) => {
         <h3>Guessed Words</h3>
         <table className="table table-sm">
           <thead className="thead-light">
-            <td>
+            <tr>
               <th>Guess</th>
-            </td>
-            <td>
               <th>Matching Letters</th>
-            </td>
+            </tr>
           </thead>
           <tbody>{guessedWordsRows}</tbody>
         </table>
