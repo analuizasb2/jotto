@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 const GuessedWords = (props) => {
   let contents;
   if (props.guessedWords.length === 0) {
-    contents = <span data-test="guess-instructions">Try a guess!</span>;
+    contents = (
+      <span data-test="guess-instructions">Try to guess the secret word!</span>
+    );
   } else {
     const guessedWordsRows = props.guessedWords.map((word, index) => (
       <tr data-test="guessed-word" key={index}>
@@ -15,14 +17,14 @@ const GuessedWords = (props) => {
     contents = (
       <div data-test="guessed-words">
         <h3>Guessed Words</h3>
-        <table>
-          <thead>
-            <tr>
+        <table className="table table-sm">
+          <thead className="thead-light">
+            <td>
               <th>Guess</th>
-            </tr>
-            <tr>
+            </td>
+            <td>
               <th>Matching Letters</th>
-            </tr>
+            </td>
           </thead>
           <tbody>{guessedWordsRows}</tbody>
         </table>
