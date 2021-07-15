@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-const Input = ({ secretWord }) => {
-  const [currentGuess, setCurrentGuess] = React.useState("");
+const Input = ({ success, secretWord }) => {
+  const [currentGuess, setCurrentGuess] = useState("");
 
   const handleInputChange = (event) => {
     setCurrentGuess(event.target.value);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    //TODO - update guessed words global state
+    //TODO - check against secretWord to update success global state
+    setCurrentGuess("");
+  };
+
+  if (success) {
+    return <div data-test="component-input" />;
+  }
   return (
     <div data-test="component-input">
       <form className="form-inline">
@@ -19,7 +29,11 @@ const Input = ({ secretWord }) => {
           onChange={handleInputChange}
         />
       </form>
-      <button data-test="submit-button" className="btn btn-primary mb-2">
+      <button
+        data-test="submit-button"
+        className="btn btn-primary mb-2"
+        onClick={handleSubmit}
+      >
         Submit
       </button>
     </div>
