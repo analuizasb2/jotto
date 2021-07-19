@@ -1,11 +1,18 @@
 import App from "./App";
-import { findByTestAttribute } from "../test/testUtils";
+import { findByTestAttribute, storeFactory } from "../test/testUtils";
 import { mount } from "enzyme";
-jest.mock("./actions");
 import { getSecretWord as mockGetSecretWord } from "./actions";
+import { Provider } from "react-redux/lib/alternate-renderers";
 
-const setup = () => {
-  return mount(<App />);
+jest.mock("./actions");
+
+const setup = (initialState = {}) => {
+  const store = storeFactory(initialState);
+  return mount(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 };
 
 test("renders without error", () => {

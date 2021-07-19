@@ -1,7 +1,12 @@
 import Input from "./Input";
 import React, { useState } from "react";
-import { checkProps, findByTestAttribute } from "../test/testUtils";
-import { shallow } from "enzyme";
+import {
+  checkProps,
+  findByTestAttribute,
+  storeFactory,
+} from "../test/testUtils";
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
 
 const defaultProps = { secretWord: "party", success: false };
 const mockSetCurrentGuess = jest.fn();
@@ -11,9 +16,14 @@ jest.mock("react", () => ({
   useState: (initialState) => [initialState, mockSetCurrentGuess],
 }));
 
-const setup = (props = {}) => {
+const setup = (initialState = {}, props = {}) => {
+  const store = storeFactory(initialState);
   const setupProps = { ...defaultProps, ...props };
-  return shallow(<Input {...setupProps} />);
+  return mount(
+    <Provider store={store}>
+      <Input {...setupProps} />
+    </Provider>
+  );
 };
 
 describe("renders", () => {
@@ -23,7 +33,6 @@ describe("renders", () => {
   });
   describe("success is true", () => {
     test("Input renders without error", () => {
-      const wrapper = setup();
       const componentInput = findByTestAttribute(wrapper, "component-input");
       expect(componentInput.length).toBe(1);
     });
@@ -45,7 +54,6 @@ describe("renders", () => {
       wrapper = setup({ success: false });
     });
     test("Input renders without error", () => {
-      const wrapper = setup();
       const componentInput = findByTestAttribute(wrapper, "component-input");
       expect(componentInput.length).toBe(1);
     });
@@ -63,7 +71,7 @@ describe("renders", () => {
 });
 
 test("renders without error", () => {
-  const wrapper = setup();
+  const wrapper = setup({ success: true });
   const componentInput = findByTestAttribute(wrapper, "component-input");
   expect(componentInput.length).toBe(1);
 });
@@ -77,7 +85,7 @@ describe("state controlled input field", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = setup();
+    wrapper = setup({ success: false });
   });
 
   test("state updates with value of input box upon change", () => {
